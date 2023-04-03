@@ -1,0 +1,12 @@
+
+category_ids:
+  0: car
+  1: person
+  2: cone
+  3: parking area
+category_colors:
+  0: (64, 192, 0) 
+  1: (64, 64, 255)
+  2: (64, 0, 0)
+  3: (192, 64, 128)
+
