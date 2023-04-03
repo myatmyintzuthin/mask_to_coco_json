@@ -14,7 +14,7 @@ pip install -r requirements.txt
 python main.py -i mask
 ```
 option: \
--i : mask directory\
+-i : mask directory
 
 ### 3. Visualize COCO json annotation 
 To cross check generated segmentation data, visualize it by drawing on original image.
@@ -28,5 +28,8 @@ option: \
 ### 4. Change class name and color
 
 Modify `config/config.yaml`.
+
+## Reference
+- https://github.com/chrise96/image-to-coco-json-converter
 
 
