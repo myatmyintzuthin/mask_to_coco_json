@@ -1,7 +1,7 @@
 # Segementation Mask to COCO Json Converter
 |           mask                      |          original    |      json_visualization |
 |:-----------------------------------:|:--------------------:|:-----------------------:|
-|<img src="mask/image_001.png" alt= “”>  | <img src="image/image_001.jpg" alt= “”>| <img src="image_viz/image_001.jpg" alt= “”>
+|<img src="assets/mask_image_001.png" alt= “”>  | <img src="assets/image_001.jpg" alt= “”>| <img src="assets/viz_image_001.jpg" alt= “”>
 
 
 ### 1. Install dependencies 
