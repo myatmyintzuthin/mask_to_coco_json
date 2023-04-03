@@ -1,4 +1,3 @@
-
 import os
 import cv2
 import json
@@ -7,7 +6,7 @@ import yaml
 import numpy as np
 from PIL import Image 
 import src.template as template
-from shapely.geometry import Polygon
+from src.polygon import Polygon 
 
 class SegToJson:
     
@@ -60,29 +59,12 @@ class SegToJson:
 
             sub_masks = self.__create_sub_masks(mask_image_open, w, h, self.__color_config.keys())
             
-            # remove background - black color
-            # color_list = ['(192, 0, 0)']
-            # # print(self.__color_config.keys())
-            # not_color = []
-            # for k in sub_masks.keys():
-            #     if k not in color_list:
-            #         not_color.append(k)
-            # print(not_color)
-            # for k in not_color:
-            #         del sub_masks[k]
-            
-            # # print(sub_masks)
-            # background = '(0, 0, 0)'
-            # if background in sub_masks.keys():
-            #     del sub_masks[background]
-                
             for color, sub_mask in sub_masks.items():
                 category_id = self.colorConfig[color]
-                
                 polygons = self.__create_sub_mask_annotation(sub_mask)
             
                 for i in range(len(polygons)):
-                    segmentation = [np.array(polygons[i].exterior.coords).ravel().tolist()]
+                    segmentation = [np.array(polygons[i].cords).ravel().tolist()]
                     annotation = template.create_annotation_format(polygons[i], segmentation, image_id, category_id, annotation_id)
                     
                     annotations.append(annotation)
@@ -92,15 +74,13 @@ class SegToJson:
         return images, annotations, annotation_id
     
     @staticmethod
-    def __create_sub_masks(mask_image: Image.Image, width: int, height: int, color_list: list ) -> dict:
+    def __create_sub_masks(mask_image: Image.Image, width: int, height: int, color_list: list) -> dict:
         # Initialize a dictionary of sub-masks indexed by RGB colors
         sub_masks = {}
         for x in range(width):
             for y in range(height):
                 pixel = mask_image.getpixel((x,y))[:3]
-                
                 if(str(pixel) in color_list):
-
                     pixel_str = str(pixel)
                     sub_mask = sub_masks.get(pixel_str)
                     if sub_mask is None:
@@ -108,7 +88,7 @@ class SegToJson:
                     sub_masks[pixel_str].putpixel((x+1, y+1), 1)
         return sub_masks
     
-    @staticmethod    
+    @staticmethod
     def __create_sub_mask_annotation(sub_mask: Image.Image) -> list:
     
         sub_mask = np.array(sub_mask) 
@@ -122,13 +102,9 @@ class SegToJson:
             for i in range(len(contour)):
                 row, col = contour[i][0]
                 contour[i] = (row - 1, col - 1)
-            
-            contour = np.reshape(contour, (-1, 2))
-            # Make a polygon and simplify it
+
             poly = Polygon(contour)
-            poly = poly.simplify(1.5, preserve_topology=False)
-            if(poly.is_empty):
-                continue
+            
             polygons.append(poly)
             
         return polygons

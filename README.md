@@ -1,9 +1,9 @@
 # Segementation Mask to COCO Json Converter
-|           mask                      |          original    |      json_visualization |
-|:-----------------------------------:|:--------------------:|:-----------------------:|
-|<img src="mask/image_001.png" alt= “”>  | <img src="image/image_001.jpg" alt= “”>| <img src="image_viz/image_001.jpg" alt= “”>
 
+This branch contains own Polygon class implementation without using Shapely Polygon class. 
 
+There are more segmenentation points than Shapely implementation. 
+Shapely's simplify algorithm is better than opencv's approxPolyDP when segmentation details are important to capture correctly. 
 ### 1. Install dependencies 
 ```
 pip install -r requirements.txt
